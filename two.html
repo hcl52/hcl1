@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11111111111</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #canvas {
+            background-color: #000;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 24px;
+            text-align: center;
+            cursor: pointer; 
+        }
+        /* .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            text-align: center;
+        } */
+        .popup {
+            /* width: 200px;
+            height: 200px; */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-image: url('微信截图_20240522095521.png'); /* 添加背景图像 */
+            background-size: cover; /* 使背景图像覆盖整个元素 */
+            background-repeat: no-repeat;
+            background-position: center center;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            text-align: center;
+            color: #fff;
+            font-weight: 700;
+            animation: textGradient 3s infinite alternate;
+        }
+        /* 定义文本渐变动画 */
+        @keyframes textGradient {
+            0% {
+                color: white; /* 开始于白色 */
+            }
+            50% {
+                color: rgb(153, 221, 240); /* 渐变到红色 */
+            }
+            100% {
+                color: white; /* 结束于白色 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="content">
+        <h1>欢迎来到小李直播界</h1>
+        <p>Li Yunjin is a little fool</p>
+        <img src="" alt="">
+    </div>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const particles = [];
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.radius = Math.random() * 2 + 1;
+                this.vx = Math.random() * 2 - 1;
+                this.vy = Math.random() * 2 - 1;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.fill();
+            } 
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) {
+                    this.vx = -this.vx;
+                }
+                if (this.y < 0 || this.y > canvas.height) {
+                    this.vy = -this.vy;
+                }
+            }
+        }
+        
+        function createParticles() {
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.draw();
+                particle.update();
+            });
+        }    
+        
+        createParticles();
+        animate();
+
+        const content = document.querySelector('.content');
+        content.addEventListener('click', () => {
+            const popup = document.createElement('div');
+            popup.classList.add('popup');
+            popup.innerHTML = `
+                <h2>啦啦啦</h2>
+                <p>老李真的不聪明！</p>
+                <button onclick="closePopup()">关闭</button>
+            `;
+            document.body.appendChild(popup);
+        });
+
+        function closePopup() {
+            const popup = document.querySelector('.popup');
+            popup.remove();
+
+            // 创建新的弹出框
+            const newPopup = document.createElement('div');
+            newPopup.classList.add('popup');
+            newPopup.innerHTML = `
+                <h2>啦啦啦2</h2>
+                <p>不许关掉，关掉分手</p>
+                <button onclick="closeNewPopup()">分手</button>
+            `;
+            document.body.appendChild(newPopup);
+        }
+
+        function closeNewPopup() {
+            const newPopup = document.querySelector('.popup');
+            newPopup.remove();
+
+            // 创建新的弹出框
+            const finalPopup = document.createElement('div');
+            finalPopup.classList.add('popup');
+            finalPopup.innerHTML = `
+                <h2>求求老婆不要分手</h2>
+                <p>我会改正的，求你了！</p>
+                <button onclick="startLottery()">抽奖</button>
+                <div id="lotteryResults"></div>
+            `;
+            document.body.appendChild(finalPopup);
+        }
+
+        function startLottery() {
+            const prizes = ['10元现金奖', '一顿免费的夜宵', '给黄春柳一个大红包'];
+            const randomIndex = Math.floor(Math.random() * prizes.length);
+            const lotteryResults = document.getElementById('lotteryResults');
+            lotteryResults.innerHTML = `<p>恭喜你获得：${prizes[randomIndex]}</p>`;
+        }
+    </script>
+</body>
+</html>
+
+
